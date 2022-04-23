@@ -9,6 +9,9 @@ import Foundation
 
 public class IsVPNode : NodeDrawableCondition{
     
+    public init(){
+    }
+
     public func satisfies(parseNode: ParseNodeDrawable) -> Bool {
         return parseNode.numberOfChildren() > 0 && parseNode.getData()!.isVP()
     }

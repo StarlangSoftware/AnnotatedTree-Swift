@@ -11,7 +11,7 @@ public class IsNodeWithSynSetId : IsLeafNode{
     
     private var id: String
     
-    init(id: String){
+    public init(id: String){
         self.id = id
     }
     

@@ -9,7 +9,7 @@ import Foundation
 
 public class IsNodeWithPredicate : IsNodeWithSynSetId{
     
-    override init(id: String){
+    public override init(id: String){
         super.init(id: id)
     }
     
