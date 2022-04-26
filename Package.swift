@@ -12,7 +12,7 @@ let package = Package(
             targets: ["AnnotatedTree"]),
     ],
     dependencies: [
-        .package(name: "AnnotatedSentence", url: "https://github.com/StarlangSoftware/AnnotatedSentence-Swift.git", .exact("1.0.6")),
+        .package(name: "AnnotatedSentence", url: "https://github.com/StarlangSoftware/AnnotatedSentence-Swift.git", .exact("1.0.7")),
         .package(name: "ParseTree", url: "https://github.com/StarlangSoftware/ParseTree-Swift.git", .exact("1.0.4")),
         .package(name: "Util", url: "https://github.com/StarlangSoftware/Util-Swift.git", .exact("1.0.8")),
     ],
