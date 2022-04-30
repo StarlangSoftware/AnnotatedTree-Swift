@@ -12,8 +12,8 @@ let package = Package(
             targets: ["AnnotatedTree"]),
     ],
     dependencies: [
-        .package(name: "AnnotatedSentence", url: "https://github.com/StarlangSoftware/AnnotatedSentence-Swift.git", .exact("1.0.8")),
-        .package(name: "ParseTree", url: "https://github.com/StarlangSoftware/ParseTree-Swift.git", .exact("1.0.5"))
+        .package(name: "AnnotatedSentence", url: "https://github.com/StarlangSoftware/AnnotatedSentence-Swift.git", .exact("1.0.9")),
+        .package(name: "ParseTree", url: "https://github.com/StarlangSoftware/ParseTree-Swift.git", .exact("1.0.6"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
