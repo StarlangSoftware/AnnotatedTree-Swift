@@ -251,6 +251,12 @@ public class ParseTreeDrawable : ParseTree{
         return sentence
     }
     
+    public func generateParseTree(surfaceForm: Bool) -> ParseTree{
+        let result = ParseTree(root: ParseNode(data: (root?.getData())!))
+        (root as! ParseNodeDrawable).generateParseNode(parseNode: result.getRoot()!, surfaceForm: surfaceForm)
+        return result
+    }
+    
     public func extractNodesWithVerbs(wordNet: WordNet) -> [ParseNodeDrawable]{
         let nodeDrawableCollector = NodeDrawableCollector(rootNode: root as! ParseNodeDrawable, condition: IsVerbNode(wordNet: wordNet))
         return nodeDrawableCollector.collect()

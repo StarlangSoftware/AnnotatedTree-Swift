@@ -28,7 +28,14 @@ final class ParseTreeTest: XCTestCase {
         parseTree9 = ParseTreeDrawable(url: thisDirectory.appendingPathComponent("trees/0008.dev"))
         parseTree10 = ParseTreeDrawable(url: thisDirectory.appendingPathComponent("trees/0009.dev"))
     }
-    
+
+    func testGenerateTree() {
+        XCTAssertEqual("(S (NP (NP (ADJP (ADJP yeni) (ADJP Büyük))  (NP yasada))  (NP (ADJP karmaşık) (NP dil)) )  (VP (NP savaşı) (VP bulandırmıştır))  (. .)) ", parseTree1.generateParseTree(surfaceForm: true).description())
+        XCTAssertEqual("(S (NP (NP (ADJP (ADJP yeni) (ADJP büyük))  (NP yasa))  (NP (ADJP karmaşık) (NP dil)) )  (VP (NP savaş) (VP bulan))  (. .)) ", parseTree1.generateParseTree(surfaceForm: false).description())
+        XCTAssertEqual("(S (NP (NP (NP Yollar) (CONJP ve) (NP Araçlar))  (NP Komitesi))  (VP (ADVP (ADJP gelecek) (NP Salı))  (NP (PP (NP fatura) (PP için))  (NP (DP bir) (NP duruşma)) )  (VP yapacak))  (. .)) ", parseTree2.generateParseTree(surfaceForm: true).description())
+        XCTAssertEqual("(S (NP (NP (NP yol) (CONJP ve) (NP araç))  (NP komite))  (VP (ADVP (ADJP gelecek) (NP salı))  (NP (PP (NP fatura) (PP için))  (NP (DP bir) (NP duruşma)) )  (VP yap))  (. .)) ", parseTree2.generateParseTree(surfaceForm: false).description())
+    }
+
     func testMaxDepth() {
         XCTAssertEqual(5, parseTree1.maxDepth())
         XCTAssertEqual(5, parseTree2.maxDepth())
@@ -137,5 +144,6 @@ final class ParseTreeTest: XCTestCase {
     static var allTests = [
         ("testExample1", testMaxDepth),
         ("testExample2", testGenerateAnnotatedSentence),
+        ("testExample3", testGenerateTree),
     ]
 }
