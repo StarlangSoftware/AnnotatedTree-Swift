@@ -87,9 +87,5 @@ public class TreeBankDrawable : TreeBank{
         }
         return result
     }
-    
-    public func removeTree(index: Int){
-        parseTrees.remove(at: index)
-    }
 
 }

@@ -16,7 +16,6 @@ public class ParseTreeDrawable : ParseTree{
     
     private var fileDescription: FileDescription = FileDescription(path: "", extensionOrFileName: "0000.train")
     private var maxInOrderTraversalIndex: Int = -1
-    private var name: String = ""
     
     init(fileDescription: FileDescription){
         super.init()
@@ -88,15 +87,7 @@ public class ParseTreeDrawable : ParseTree{
     public func getMaxInOrderTraversalIndex() -> Int{
         return maxInOrderTraversalIndex
     }
-    
-    public func setName(name: String){
-        self.name = name
-    }
-
-    public func getName() -> String{
-        return name
-    }
-    
+        
     public func nextTree(count: Int){
         if fileDescription.nextFileExists(count: count){
             fileDescription.addToIndex(count: count)
