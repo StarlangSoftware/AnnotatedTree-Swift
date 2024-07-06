@@ -21,6 +21,13 @@ public class ParseNodeDrawable : ParseNode{
     var inOrderTraversalIndex : Int = -1;
     let sentenceLabels : [String] = ["SINV", "SBARQ", "SBAR", "SQ", "S"]
     
+    /// Constructs a ParseNodeDrawable from a single line. If the node is a leaf node, it only sets the data. Otherwise,
+    /// splits the line w.r.t. spaces and parenthesis and calls itself recursively to generate its child parseNodes.
+    /// - Parameters:
+    ///   - parent: The parent node of this node.
+    ///   - line: The input line to create this parseNode.
+    ///   - isLeaf: True, if this node is a leaf node; false otherwise.
+    ///   - depth: Depth of the node.
     public init(parent: ParseNodeDrawable?, line: String, isLeaf: Bool, depth: Int){
         super.init()
         var parenthesisCount : Int = 0
@@ -62,10 +69,18 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Another simple constructor for ParseNode. It only takes input the data, and sets it.
+    /// - Parameter data: Data for this node.
     public override init(data: Symbol){
         super.init(data: data)
     }
     
+    /// Another constructor for ParseNodeDrawable. Sets the parent to the given parent, and adds given child as a
+    /// single child, and sets the given symbol as data.
+    /// - Parameters:
+    ///   - parent: Parent of this node.
+    ///   - child: Single child of this node.
+    ///   - symbol: Symbol of this node.
     public init(parent: ParseNodeDrawable, child: ParseNodeDrawable, symbol: String){
         super.init()
         children = []
@@ -79,10 +94,15 @@ public class ParseNodeDrawable : ParseNode{
         inOrderTraversalIndex = child.inOrderTraversalIndex
     }
     
+    /// Accessor for layers attribute
+    /// - Returns: Layers attribute
     public func getLayerInfo() -> LayerInfo{
         return layers!
     }
     
+    /// Returns the data. Either the node is a leaf node, in which case English word layer is returned; or the node is
+    /// a nonleaf node, in which case the node tag is returned.
+    /// - Returns: English word for leaf node, constituency tag for non-leaf node.
     public override func getData() -> Symbol? {
         if layers == nil{
             return super.getData()
@@ -91,10 +111,13 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Clears the layers hash map.
     public func clearLayers(){
         layers = LayerInfo()
     }
     
+    /// Recursive method to clear a given layer.
+    /// - Parameter layerType: Name of the layer to be cleared
     public func clearLayer(layerType: ViewLayerType){
         if children.count == 0 && layerExists(viewLayerType: layerType){
             layers?.removeLayer(layerType: layerType)
@@ -104,19 +127,27 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Clears the node tag.
     public func clearData(){
         data = nil
     }
     
+    /// Setter for the data attribute and also clears all layers.
+    /// - Parameter data: New data field.
     public func setDataAndClearLayers(data: Symbol){
         super.setData(data: data)
         layers = nil
     }
     
+    /// Accessor for inOrderTraversalIndex attribute
+    /// - Returns: InOrderTraversalIndex attribute.
     public func getInOrderTraversalIndex() -> Int{
         return inOrderTraversalIndex
     }
     
+    /// Mutator for the data field. If the layers is null, its sets the data field, otherwise it sets the English layer
+    /// to the given value.
+    /// - Parameter data: Data to be set.
     public override func setData(data: Symbol) {
         if layers == nil{
             super.setData(data: data)
@@ -125,6 +156,9 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Returns the layer value of the head child of this node.
+    /// - Parameter viewLayerType: Layer name
+    /// - Returns: Layer value of the head child of this node.
     public func headWord(viewLayerType: ViewLayerType) -> String{
         if children.count > 0{
             return (headChild() as! ParseNodeDrawable).headWord(viewLayerType: viewLayerType)
@@ -133,6 +167,9 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Accessor for the data or layers attribute.
+    /// - Returns: If data is not null, this node is a non-leaf node, it returns the data field. Otherwise, this node is a
+    /// leaf node, it returns the layer description.
     public func getLayerData() -> String{
         if data != nil{
             return (data?.getName())!
@@ -140,6 +177,9 @@ public class ParseNodeDrawable : ParseNode{
         return (layers?.getLayerDescription())!
     }
     
+    /// Returns the layer value of a given layer.
+    /// - Parameter viewLayer: Layer name
+    /// - Returns: Value of the given layer
     public func getLayerData(viewLayer: ViewLayerType) -> String?{
         if viewLayer == .WORD || layers == nil{
             return data?.getName()
@@ -147,14 +187,22 @@ public class ParseNodeDrawable : ParseNode{
         return layers?.getLayerData(viewLayer: viewLayer)
     }
     
+    /// Accessor for the leafIndex attribute
+    /// - Returns: LeafIndex attribute
     public func getLeafIndex() -> Int{
         return leafIndex
     }
     
+    /// Accessor for the depth attribute
+    /// - Returns: Depth attribute
     public func getDepth() -> Int{
         return depth
     }
     
+    /// Recursive setter method for the leafIndex attribute. LeafIndex shows the index of the leaf node according to the
+    /// inorder traversal without considering non-leaf nodes.
+    /// - Parameter pos: Current leaf index
+    /// - Returns: Updated leaf index
     public func leafTraversal(pos: Int) -> Int{
         var currentPos : Int = pos
         if children.count == 0{
@@ -166,7 +214,11 @@ public class ParseNodeDrawable : ParseNode{
         }
         return currentPos
     }
-
+    
+    /// Recursive setter method for the inOrderTraversalIndex attribute. InOrderTraversalIndex shows the index of the
+    /// node according to the inorder traversal.
+    /// - Parameter pos: Current inorder traversal index
+    /// - Returns: Update inorder traversal index
     public func inOrderTraversal(pos: Int) -> Int{
         var currentPos : Int = pos
         for i in 0..<children.count / 2{
@@ -182,6 +234,8 @@ public class ParseNodeDrawable : ParseNode{
         return currentPos
     }
     
+    /// Returns the maximum inorder traversal index considering this node and all of its descendants.
+    /// - Returns: The maximum inorder traversal index considering this node and all of its descendants.
     public func maxInOrderTraversal() -> Int{
         if children.count == 0{
             return inOrderTraversalIndex
@@ -198,6 +252,8 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Recursive method which updates the depth attribute
+    /// - Parameter depth: Current depth to set.
     public func updateDepths(depth: Int){
         self.depth = depth
         for aChildren in children{
@@ -206,6 +262,8 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Calculates the maximum depth of the subtree rooted from this node.
+    /// - Returns: The maximum depth of the subtree rooted from this node.
     public func maxDepth() -> Int{
         var depth : Int = self.depth
         for aChildren in children{
@@ -217,10 +275,14 @@ public class ParseNodeDrawable : ParseNode{
         return depth
     }
     
+    /// Accessor for the area attribute.
+    /// - Returns: Area attribute.
     public func getArea() -> RectAngle{
         return area!
     }
     
+    /// Recursive method that updates all pos tags in the leaf nodes according to the morphological tag in those leaf
+    /// nodes.
     public func updatePosTags(){
         if children.count == 1 && children[0].isLeaf() && !children[0].isDummyNode(){
             let layerInfo = (children[0] as! ParseNodeDrawable).getLayerInfo()
@@ -235,6 +297,8 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Returns all symbols in this node.
+    /// - Returns: All symbols in the children of this node.
     public func getChildrenSymbols() -> [Symbol]{
         var childrenSymbols : [Symbol] = []
         for aChildren in children{
@@ -244,6 +308,8 @@ public class ParseNodeDrawable : ParseNode{
         return childrenSymbols
     }
     
+    /// Recursive method that returns the concatenation of all pos tags of all descendants of this node.
+    /// - Returns: The concatenation of all pos tags of all descendants of this node.
     public override func ancestorString() -> String {
         if parent == nil{
             return (data?.getName())!
@@ -256,6 +322,11 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Recursive method that checks if all nodes in the subtree rooted with this node has the annotation in the given
+    /// layer.
+    /// - Parameter viewLayerType: Layer name
+    /// - Returns: True if all nodes in the subtree rooted with this node has the annotation in the given layer, false
+    /// otherwise.
     public func layerExists(viewLayerType: ViewLayerType) -> Bool{
         if children.count == 0{
             if getLayerData(viewLayer: viewLayerType) != nil{
@@ -272,6 +343,9 @@ public class ParseNodeDrawable : ParseNode{
         return false
     }
     
+    /// Checks if the current node is a dummy node or not. A node is a dummy node if its data contains '*', or its
+    /// data is '0' and its parent is '-NONE-'.
+    /// - Returns: True if the current node is a dummy node, false otherwise.
     public override func isDummyNode() -> Bool {
         let data = getLayerData(viewLayer: .ENGLISH_WORD)
         let parentData = (parent as! ParseNodeDrawable).getLayerData(viewLayer: .ENGLISH_WORD)
@@ -286,6 +360,10 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Checks if all nodes in the subtree rooted with this node has annotation with the given layer.
+    /// - Parameter viewLayerType: Layer name
+    /// - Returns: True if all nodes in the subtree rooted with this node has annotation with the given layer, false
+    /// otherwise.
     public func layerAll(viewLayerType: ViewLayerType) -> Bool{
         if children.count == 0{
             if getLayerData(viewLayer: viewLayerType) == nil && !isDummyNode(){
@@ -302,6 +380,8 @@ public class ParseNodeDrawable : ParseNode{
         return true
     }
     
+    /// Recursive method that accumulates all tag symbols in the descendants of this node in the tagList.
+    /// - Parameter tagList: Array of strings to store the tag symbols.
     public func extractTags(tagList: inout [String]){
         if numberOfChildren() != 0{
             tagList.append((getData()?.getName())!)
@@ -311,6 +391,8 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Recursive method that accumulates number of children of all descendants of this node in the childNumberList.
+    /// - Parameter childNumberList: Array of integers to store the number of children
     public func extractNumberOfChildren(childNumberList: inout [Int]){
         if numberOfChildren() != 0{
             childNumberList.append(numberOfChildren())
@@ -319,7 +401,10 @@ public class ParseNodeDrawable : ParseNode{
             (getChild(i: i) as! ParseNodeDrawable).extractNumberOfChildren(childNumberList: &childNumberList)
         }
     }
-
+    
+    /// Recursive method to convert the subtree rooted with this node to a string. All parenthesis types are converted to
+    /// their regular forms.
+    /// - Returns: String version of the subtree rooted with this node.
     public func toTurkishSentence() -> String{
         if children.count == 0{
             if getLayerData(viewLayer: .TURKISH_WORD) != nil && getLayerData(viewLayer: .TURKISH_WORD) != "*NONE*"{
@@ -336,6 +421,11 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Sets the NER layer according to the tag of the parent node and the word in the node. The word is searched in the
+    /// gazetteer, if it exists, the NER info is replaced with the NER tag in the gazetter.
+    /// - Parameters:
+    ///   - gazetteer: Gazetteer where we search the word
+    ///   - word: Word to be searched in the gazetteer
     public func checkGazetteer(gazetteer: Gazetteer, word: String){
         if gazetteer.contains(word: word) && getParent()?.getData()?.getName() == "NNP"{
             getLayerInfo().setLayerData(viewLayer: .NER, layerValue: gazetteer.getName())
@@ -346,6 +436,11 @@ public class ParseNodeDrawable : ParseNode{
             }
     }
     
+    /// Recursive method that sets the tag information of the given parse node with all descendants with respect to the
+    /// morphological annotation of the current node with all descendants.
+    /// - Parameters:
+    ///   - parseNode: Parse node whose tag information will be changed.
+    ///   - surfaceForm: If true, tag will be replaced with the surface form annotation.
     public func generateParseNode(parseNode: ParseNode, surfaceForm: Bool){
         if numberOfChildren() == 0{
             if surfaceForm{
@@ -363,6 +458,8 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Recursive method to convert the subtree rooted with this node to a string.
+    /// - Returns: String version of the subtree rooted with this node.
     public override func description() -> String {
         if children.count < 2{
             if children.count < 1{
@@ -379,6 +476,9 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Returns the leaf node at position index in the subtree rooted with this node.
+    /// - Parameter index: Position of the leaf node.
+    /// - Returns: The leaf node at position index in the subtree rooted with this node.
     public func getLeafWithIndex(index: Int) -> ParseNodeDrawable?{
         if children.count == 0 && leafIndex == index{
             return self
@@ -393,7 +493,13 @@ public class ParseNodeDrawable : ParseNode{
             return nil
         }
     }
-
+    
+    /// Returns the index of the layer data in the given x and y coordinates in the panel that displays the annotated
+    /// tree.
+    /// - Parameters:
+    ///   - x: x coordinate
+    ///   - y: y coordinate
+    /// - Returns: Index of the layer data in the given x and y coordinates in the panel that displays the annotated tree.
     public func getSubItemAt(x: Int, y: Int) -> Int{
         if (area?.contains(x: x, y: y))! && children.count == 0{
             return (y - (area?.getY())!) / 20
@@ -408,7 +514,12 @@ public class ParseNodeDrawable : ParseNode{
             return -1
         }
     }
-
+    
+    /// Returns the parse node in the given x and y coordinates in the panel that displays the annotated tree.
+    /// - Parameters:
+    ///   - x: x coordinate
+    ///   - y: y coordinate
+    /// - Returns: The parse node in the given x and y coordinates in the panel that displays the annotated tree.
     public func getNodeAt(x: Int, y: Int) -> ParseNodeDrawable?{
         if (area?.contains(x: x, y: y))!{
             return self
@@ -423,7 +534,12 @@ public class ParseNodeDrawable : ParseNode{
             return nil
         }
     }
-
+    
+    /// Returns the leaf node in the given x and y coordinates in the panel that displays the annotated tree.
+    /// - Parameters:
+    ///   - x: x coordinate
+    ///   - y: y coordinate
+    /// - Returns: The leaf node in the given x and y coordinates in the panel that displays the annotated tree.
     public func getLeafNodeAt(x: Int, y: Int) -> ParseNodeDrawable?{
         if (area?.contains(x: x, y: y))! && children.count == 0{
             return self
@@ -439,6 +555,12 @@ public class ParseNodeDrawable : ParseNode{
         }
     }
     
+    /// Mutator for the area attribute
+    /// - Parameters:
+    ///   - x: New x coordinate of the area
+    ///   - y: New y coordinate of the area
+    ///   - width: New width of the area
+    ///   - height: New height of the area
     public func setArea(x: Int, y: Int, width: Int, height: Int){
         area = RectAngle(x: x, y: y, width: width, height: height)
     }

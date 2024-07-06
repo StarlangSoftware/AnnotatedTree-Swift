@@ -9,6 +9,7 @@ import Foundation
 
 public class LeafToTurkish : LeafToLanguageConverter{
     
+    /// Constructor for LeafToPersian. Sets viewLayerType to TURKISH.
     public override init(){
         super.init()
         viewLayerType = .TURKISH_WORD

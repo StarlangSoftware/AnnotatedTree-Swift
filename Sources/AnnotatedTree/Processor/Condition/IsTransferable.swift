@@ -16,6 +16,9 @@ public class IsTransferable : IsLeafNode{
         self.secondLanguage = secondLanguage
     }
     
+    /// Checks if the node is a leaf node and is not a None or Null node.
+    /// - Parameter parseNode: Parse node to check.
+    /// - Returns: True if the node is a leaf node and is not a None or Null node, false otherwise.
     public override func satisfies(parseNode: ParseNodeDrawable) -> Bool {
         if super.satisfies(parseNode: parseNode){
             if IsNoneNode(secondLanguage: secondLanguage).satisfies(parseNode: parseNode){

@@ -10,11 +10,15 @@ import MorphologicalAnalysis
 
 public class MetaMorphemeLayer : MetaMorphemesMovedLayer{
     
+    /// Constructor for the metamorpheme layer. Sets the metamorpheme information for multiple words in the node.
+    /// - Parameter layerValue: Layer value for the metamorpheme information. Consists of metamorpheme information of multiple words separated via space character.
     override init(layerValue: String) {
         super.init(layerValue: layerValue)
         self.layerName = "metaMorphemes"
     }
     
+    /// Sets the layer value to the string form of the given parse.
+    /// - Parameter parse: New metamorphic parse.
     public func setLayerValue(parse: MetamorphicParse){
         layerValue = parse.description()
         let splitWords = layerValue.split(separator: " ").map(String.init)
@@ -23,6 +27,9 @@ public class MetaMorphemeLayer : MetaMorphemesMovedLayer{
         }
     }
     
+    /// Constructs metamorpheme information starting from the position index.
+    /// - Parameter index: Position of the morpheme to start.
+    /// - Returns: Metamorpheme information starting from the position index.
     public func getLayerInfoFrom(index: Int) -> String?{
         var size = 0
         var newIndex = index
@@ -41,6 +48,9 @@ public class MetaMorphemeLayer : MetaMorphemesMovedLayer{
         return nil
     }
     
+    /// Removes metamorphemes from the given index. Index shows the position of the metamorpheme in the metamorphemes list.
+    /// - Parameter index: Position of the metamorpheme from which the other metamorphemes will be removed.
+    /// - Returns: New metamorphic parse not containing the removed parts.
     public func metaMorphemeRemoveFromIndex(index : Int) -> MetamorphicParse?{
         if (index >= 0 && index < getLayerSize(viewLayer: .META_MORPHEME)){
             var size = 0

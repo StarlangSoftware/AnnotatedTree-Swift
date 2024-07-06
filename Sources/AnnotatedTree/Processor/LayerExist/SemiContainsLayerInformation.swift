@@ -12,10 +12,16 @@ public class SemiContainsLayerInformation : LeafListCondition{
     
     private var viewLayerType: ViewLayerType
     
+    /// Constructor for SemiContainsLayerInformation class. Sets the viewLayerType attribute.
+    /// - Parameter viewLayerType: Layer for which check is done.
     public init(viewLayerType: ViewLayerType){
         self.viewLayerType = viewLayerType
     }
     
+    /// Checks if some (but not all) of the leaf nodes in the leafList contains the given layer information.
+    /// - Parameter leafList: Array list storing the leaf nodes.
+    /// - Returns: True if some (but not all) of the leaf nodes in the leafList contains the given layer information, false
+    /// otherwise.
     public func satisfies(leafList: [ParseNodeDrawable]) -> Bool {
         var notDone : Int = 0, done : Int = 0
         for parseNode in leafList{

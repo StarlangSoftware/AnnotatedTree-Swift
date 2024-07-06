@@ -11,6 +11,11 @@ import AnnotatedSentence
 public class LeafToLanguageConverter : LeafToStringConverter{
     var viewLayerType: ViewLayerType = .TURKISH_WORD
     
+    /// Converts the data in the leaf node to string, except shortcuts to parentheses are converted to its normal forms,
+    /// '*', '0', '-NONE-' are converted to empty string.
+    /// - Parameter leafNode: Node to be converted to string.
+    /// - Returns: String form of the data, except shortcuts to parentheses are converted to its normal forms,
+    /// '*', '0', '-NONE-' are converted to empty string.
     public func leafConverter(leafNode: ParseNodeDrawable) -> String {
         let layerData = leafNode.getLayerData(viewLayer: viewLayerType)
         let parentLayerData = (leafNode.getParent() as! ParseNodeDrawable).getLayerData(viewLayer: viewLayerType)

@@ -9,6 +9,10 @@ import Foundation
 
 public class IsNumber : IsLeafNode{
     
+    /// Checks if the node is a leaf node and contains numerals as the data and its parent has the tag CD.
+    /// - Parameter parseNode: Parse node to check.
+    /// - Returns: True if the node is a leaf node and contains numerals as the data and its parent has the tag CD, false
+    /// otherwise.
     public override func satisfies(parseNode: ParseNodeDrawable) -> Bool {
         if super.satisfies(parseNode: parseNode){
             var p : NSRegularExpression?

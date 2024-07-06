@@ -10,11 +10,16 @@ import AnnotatedSentence
 
 public class TargetLanguageWordLayer : MultiWordLayer<String>{
     
+    /// Sets the surface form(s) of the word(s) possibly separated with space.
+    /// - Parameter layerValue: Surface form(s) of the word(s) possibly separated with space.
     init(layerValue: String){
         super.init()
         self.setLayerValue(layerValue: layerValue)
     }
     
+    /// Sets the surface form(s) of the word(s). Value may consist of multiple surface form(s)
+    /// separated via space character.
+    /// - Parameter layerValue: New layer info
     public func setLayerValue(layerValue: String?){
         self.layerValue = layerValue!
         if (layerValue != nil){

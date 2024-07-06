@@ -9,6 +9,9 @@ import Foundation
 
 public class IsTurkishLeafNode : IsLeafNode{
     
+    /// Checks if the parse node is a leaf node and contains a valid Turkish word in its data.
+    /// - Parameter parseNode: Parse node to check.
+    /// - Returns: True if the parse node is a leaf node and contains a valid Turkish word in its data; false otherwise.
     public override func satisfies(parseNode: ParseNodeDrawable) -> Bool {
         if super.satisfies(parseNode: parseNode){
             let data = parseNode.getLayerInfo().getLayerData(viewLayer: .TURKISH_WORD)

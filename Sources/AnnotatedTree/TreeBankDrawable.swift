@@ -66,10 +66,14 @@ public class TreeBankDrawable : TreeBank{
         }
     }
     
+    /// Accessor for the parseTrees attribute
+    /// - Returns: ParseTrees attribute
     public func getParseTrees() -> [ParseTree]{
         return parseTrees
     }
     
+    /// Clears the given layer for all nodes in all trees
+    /// - Parameter layerType: Layer name
     public func clearLayer(layerType: ViewLayerType){
         for parseTree in parseTrees{
             let tree = parseTree as! ParseTreeDrawable
@@ -77,6 +81,9 @@ public class TreeBankDrawable : TreeBank{
         }
     }
     
+    /// Returns list of trees that contain at least one verb which is annotated as 'PREDICATE'.
+    /// - Parameter wordNet: Wordnet used for checking the pos tag of the synset.
+    /// - Returns: List of trees that contain at least one verb which is annotated as 'PREDICATE'.
     public func extractTreesWithPredicates(wordNet: WordNet) -> [ParseTreeDrawable]{
         var result : [ParseTreeDrawable] = []
         for parseTree in parseTrees{

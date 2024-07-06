@@ -9,6 +9,10 @@ import Foundation
 
 public class IsNullElement : IsLeafNode{
     
+    /// Checks if the parse node is a leaf node and its data is '*' and its parent's data is '-NONE-'.
+    /// - Parameter parseNode: Parse node to check.
+    /// - Returns: True if the parse node is a leaf node and its data is '*' and its parent's data is '-NONE-', false
+    /// otherwise.
     public override func satisfies(parseNode: ParseNodeDrawable) -> Bool {
         if super.satisfies(parseNode: parseNode){
             let data = parseNode.getLayerData(viewLayer: .ENGLISH_WORD)

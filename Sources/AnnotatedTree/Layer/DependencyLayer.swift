@@ -9,6 +9,8 @@ import Foundation
 
 public class DependencyLayer : SingleWordLayer<String>{
     
+    /// Constructor for the dependency layer. Dependency layer stores the dependency information of a node.
+    /// - Parameter layerValue: Value of the dependency layer.
     init(layerValue: String) {
         super.init()
         self.layerName = "dependency"

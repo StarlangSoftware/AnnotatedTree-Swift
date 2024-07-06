@@ -15,6 +15,9 @@ public class IsNoneNode : IsLeafNode{
         self.secondLanguage = secondLanguage
     }
     
+    /// Checks if the data of the parse node is '*NONE*'.
+    /// - Parameter parseNode: Parse node to check.
+    /// - Returns: True if the data of the parse node is '*NONE*', false otherwise.
     public override func satisfies(parseNode: ParseNodeDrawable) -> Bool {
         if super.satisfies(parseNode: parseNode){
             let data = parseNode.getLayerData(viewLayer: secondLanguage)
